@@ -68,5 +68,5 @@ services:
 Congrats !!! The bug will not show again
 
 
-reference :
-https://github.com/NginxProxyManager/nginx-proxy-manager/issues/310
+reference : <br>
+<a src="https://github.com/NginxProxyManager/nginx-proxy-manager/issues/310">https://github.com/NginxProxyManager/nginx-proxy-manager/issues/310</a>
