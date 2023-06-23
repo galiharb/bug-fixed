@@ -27,7 +27,8 @@ After that, you can check the log again, and the problem has gone : <br>
 <img src="https://i.ibb.co/TMwzd19/hasil.png" alt="hasil" border="0">
 
 
-<hr>
+<br><br>
+
 ## Permanently Solved the bug [Alternative]
 
 Not use mysql, convert that to sqllite
