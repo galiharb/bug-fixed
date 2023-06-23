@@ -18,10 +18,55 @@ I am use docker, so u can follow this command <br>
 ```
 docker exec -it <id container> chown -R mysql:mysql /var/lib/mysql
 ```
+restart your nginx proxy and nginx db, if you use docker-compose you can use
+```
+docker-compose restart
+```
 
 After that, you can check the log again, and the problem has gone : <br>
 <img src="https://i.ibb.co/TMwzd19/hasil.png" alt="hasil" border="0">
 
 
-### Permanently Solved the bug [Alternative]
+## Permanently Solved the bug [Alternative]
 
+Not use mysql, convert that to sqllite
+
+1. Export the database
+```
+docker exec -it <container id db nginxproxy> mysqldump --user=npm --password=<your_password> npm -h 127.0.0.1 > npm-export.sql
+```
+
+2. clone mysql to sqllite tools
+```
+git clone https://github.com/dumblob/mysql2sqlite.git .
+```
+
+3. convert
+```
+./mysql2sqlite npm-export.sql | sqlite3 database.sqlite
+```
+
+4. change your docker-compose, you can use my config :
+```
+version: '3'
+services:
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    environment:
+      DB_SQLITE_FILE: /data/database.sqlite
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+      - ./data/database.sqlite:/data/database.sqlite
+```
+
+Congrats !!! The bug will not show again
+
+
+reference :
+https://github.com/NginxProxyManager/nginx-proxy-manager/issues/310
